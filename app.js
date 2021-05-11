@@ -1,47 +1,50 @@
-
 const { Client } = require('@elastic/elasticsearch')
 const client = new Client({ node: 'http://localhost:9200' })
 
-// require csvtojson module
-const CSVToJSON = require('csvtojson');
+const csvFilePath = 'Data.csv';
+const csv = require('csvtojson');
 
-// convert Data.csv file to JSON array
-CSVToJSON().fromFile('Data.csv')
-  .then(blogs => {
-      // blogs is a JSON array
-      // log the JSON array
-      //console.log(blogs);
-
-      for (var i = 0; i < blogs.length; i++ ) {
-        client.create({
-          index: "groupe_8", // name your index
-          type: "g8", // describe the data thats getting created
-          id: i, // increment ID every iteration - I already sorted mine but not a requirement
-          body: blogs[i] // *** THIS ASSUMES YOUR DATA FILE IS FORMATTED LIKE SO: [{prop: val, prop2: val2}, {prop:...}, {prop:...}] - I converted mine from a CSV so pubs[i] is the current object {prop:..., prop2:...}
-        }, function(error, response) {
-          if (error) {
-            console.error(error);
-            return;
-          }
-          else {
-          console.log(response);  //  I don't recommend this but I like having my console flooded with stuff.  It looks cool.  Like I'm compiling a kernel really fast.
-          }
-        });
-      }
-
-  }).catch(err => {
-      // log error if any
-      console.log(err);
-  });
-
-
-client.search({
-  index: 'groupe_8',
-  body: {
-    query: {
-      match: {  }
-    }
-  }
-}, (err, result) => {
-  if (err) console.log(err)
+csv({
+  delimiter: ';',
+	trim: false,
+	noheader: true,
+  headers: ['title', 'seo_title', 'url', 'author', 'date', 'category', 'locales', 'content'],
 })
+.fromFile(csvFilePath)
+.then(blogs => {  
+  const formattedBlogs = blogs.map((blog) => { // Je format le fichier en json
+    return  {
+      title: blog['title'],
+      seo_title: blog['seo_title'],
+      url: blog['url'],
+      author: blog['author'],
+      date: blog['date'],
+      category: blog['category'],
+      locales: blog['locales'],
+      content: blog['content']
+    }
+  })
+
+  formattedBlogs.map((formattedBlog, index) => {
+    //console.log('index = ', index)
+    //console.log(formattedBlog);
+    
+    client.create({
+      index: "groupe_8",
+      type: "g8",
+      id: index,
+      body: formattedBlog
+    }, function(error, response) {
+      if (error) {
+        console.error(error);
+        return;
+      }
+      else {
+        console.log(response); 
+      }
+    });
+  })
+
+}).catch(err => {
+  console.log(err);
+});
