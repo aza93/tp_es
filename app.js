@@ -1,57 +1,47 @@
-var esResponseParser = require("es-response-parser");
 
-var esResponse = {
-      "aggregations": {
-        "offerId": {
-          "doc_count_error_upper_bound": 0,
-          "sum_other_doc_count": 0,
-          "buckets": [{
-            "key": "F1A2LqSYD3u",
-            "doc_count": 6,
-            "os": {
-              "doc_count_error_upper_bound": 0,
-              "sum_other_doc_count": 0,
-              "buckets": [{
-                "key": "Desktop",
-                "doc_count": 6,
-                "campaignClick": {"value": 6.0},
-                "offerClick": {"value": 6.0},
-                "revenue": {"value": 0.0}
-              }]
-            }
-          }, {
-            "key": "F1MGDprRRJP",
-            "doc_count": 6,
-            "os": {
-              "doc_count_error_upper_bound": 0,
-              "sum_other_doc_count": 0,
-              "buckets": [{
-                "key": "Desktop",
-                "doc_count": 6,
-                "campaignClick": {"value": 6.0},
-                "offerClick": {"value": 6.0},
-                "revenue": {"value": 0.0}
-              }]
-            }
-          }, {
-            "key": "F1MGDprnv7y",
-            "doc_count": 5,
-            "os": {
-              "doc_count_error_upper_bound": 0,
-              "sum_other_doc_count": 0,
-              "buckets": [{
-                "key": "Desktop",
-                "doc_count": 5,
-                "campaignClick": {"value": 5.0},
-                "offerClick": {"value": 5.0},
-                "revenue": {"value": 0.0}
-              }]
-            }
-          }]
-        }
+const { Client } = require('@elastic/elasticsearch')
+const client = new Client({ node: 'http://localhost:9200' })
+
+// require csvtojson module
+const CSVToJSON = require('csvtojson');
+
+// convert Data.csv file to JSON array
+CSVToJSON().fromFile('Data.csv')
+  .then(blogs => {
+      // blogs is a JSON array
+      // log the JSON array
+      //console.log(blogs);
+
+      for (var i = 0; i < blogs.length; i++ ) {
+        client.create({
+          index: "groupe_8", // name your index
+          type: "g8", // describe the data thats getting created
+          id: i, // increment ID every iteration - I already sorted mine but not a requirement
+          body: blogs[i] // *** THIS ASSUMES YOUR DATA FILE IS FORMATTED LIKE SO: [{prop: val, prop2: val2}, {prop:...}, {prop:...}] - I converted mine from a CSV so pubs[i] is the current object {prop:..., prop2:...}
+        }, function(error, response) {
+          if (error) {
+            console.error(error);
+            return;
+          }
+          else {
+          console.log(response);  //  I don't recommend this but I like having my console flooded with stuff.  It looks cool.  Like I'm compiling a kernel really fast.
+          }
+        });
       }
-    };
-    
-  var result = esResponseParser.parse(esResponse);
-  
-  console.log(result);
+
+  }).catch(err => {
+      // log error if any
+      console.log(err);
+  });
+
+
+client.search({
+  index: 'groupe_8',
+  body: {
+    query: {
+      match: {  }
+    }
+  }
+}, (err, result) => {
+  if (err) console.log(err)
+})
