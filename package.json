@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "es-response-parser": "^1.0.2"
+  }
+}
