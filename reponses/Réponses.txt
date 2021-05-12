@@ -74,7 +74,6 @@ GET /groupe_8/_search
 }
 
 ----------------------------------------------------
-<<<<<<< Updated upstream
 q8-1:
 
 GET /groupe_8/_search
@@ -140,29 +139,23 @@ GET /groupe_8/_search
     }
   }
 }
-=======
-q9:
-
-
-
-
-
-
-
-
 
 ----------------------------------------------------
+
 q10:
 
-
-
-
-
-
-
+GET /groupe_8/_search
+{
+  "query": {
+    "match_phrase": {
+      "content":"search X analytics"
+    }
+  }
+}
 
 ----------------------------------------------------
 q11:
+
 GET /groupe_8/_search
 {
     "query": {
@@ -181,4 +174,3 @@ GET /groupe_8/_search
         }
     }
 }
->>>>>>> Stashed changes
