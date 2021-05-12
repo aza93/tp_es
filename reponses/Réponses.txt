@@ -74,6 +74,7 @@ GET /groupe_8/_search
 }
 
 ----------------------------------------------------
+<<<<<<< Updated upstream
 q8-1:
 
 GET /groupe_8/_search
@@ -139,3 +140,45 @@ GET /groupe_8/_search
     }
   }
 }
+=======
+q9:
+
+
+
+
+
+
+
+
+
+----------------------------------------------------
+q10:
+
+
+
+
+
+
+
+
+----------------------------------------------------
+q11:
+GET /groupe_8/_search
+{
+    "query": {
+        "bool": {
+            "must": [
+                {
+                    "bool": {
+                        "should": [
+                            {"term": {"content": "performance"}},
+                            {"term": {"content": "optimizations"}},
+                            {"term": {"content": "improvements"}}
+                        ]
+                    }
+                }
+            ]
+        }
+    }
+}
+>>>>>>> Stashed changes
