@@ -1,14 +1,15 @@
+// Module pour créer la connexion avec le cluster/localhost
 const { Client } = require('@elastic/elasticsearch')
 const client = new Client({ node: 'http://localhost:9200' })
 
-const csvFilePath = 'Data.csv';
-const csv = require('csvtojson');
+const csvFilePath = 'Data.csv'; // path du fichier csv à convertir
+const csv = require('csvtojson'); // module utilisé pour
 
 csv({
   delimiter: ';',
-	trim: false,
-	noheader: true,
-  headers: ['title', 'seo_title', 'url', 'author', 'date', 'category', 'locales', 'content'],
+	trim: false, // Désactivation de l'option de trim
+	noheader: true, // Le fichier ne contient pas de header
+  headers: ['title', 'seo_title', 'url', 'author', 'date', 'category', 'locales', 'content'], // Définition manuelle des headers
 })
 .fromFile(csvFilePath)
 .then(blogs => {  
@@ -25,12 +26,13 @@ csv({
     }
   })
 
+  // Je bulk mon fichier json
   formattedBlogs.map((formattedBlog, index) => {
     //console.log('index = ', index)
     //console.log(formattedBlog);
     
     client.create({
-      index: "groupe_8",
+      index: "groupe_8", // L'index le fichier
       type: "g8",
       id: index,
       body: formattedBlog
