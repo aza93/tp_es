@@ -32,3 +32,15 @@ GET /groupe_8/_search
     }
   }
 }
+
+----------------------------------------------------
+q5:
+
+GET /groupe_8/_search
+{
+  "query": {
+    "match": {
+      "title": "elastic"
+    }
+  }
+}
