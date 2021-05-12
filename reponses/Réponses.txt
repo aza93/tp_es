@@ -44,3 +44,14 @@ GET /groupe_8/_search
     }
   }
 }
+----------------------------------------------------
+q6:
+
+GET /groupe_8/_search
+{
+  "query": {
+    "match": {
+      "title": "elastic stack"
+    }
+  }
+}
