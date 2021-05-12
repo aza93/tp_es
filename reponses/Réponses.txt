@@ -56,7 +56,7 @@ GET /groupe_8/_search
   }
 }
 
-Le nombre de résultats a-t-il augmenté en ajoutant un terme à la requête parce que nous avons ciblé
+Le nombre de résultats a augmenté en ajoutant un terme à la requête parce que nous avons ciblé
 la requête en ajoutant "stack" comme mot de plus.
 ----------------------------------------------------
 q7:
@@ -197,3 +197,11 @@ GET /groupe_8/_search
       }
   }
 }
+
+----------------------------------------------------
+q13:
+
+Le score maximal était de 9.979115.
+
+En ajoutant les paramètres should et match_phrase on peut améliorer les résultats
+
