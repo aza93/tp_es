@@ -55,6 +55,9 @@ GET /groupe_8/_search
     }
   }
 }
+
+Le nombre de résultats a-t-il augmenté en ajoutant un terme à la requête parce que nous avons ciblé
+la requête en ajoutant "stack" comme mot de plus.
 ----------------------------------------------------
 q7:
 
@@ -70,6 +73,58 @@ GET /groupe_8/_search
   }
 }
 
-Le nombre de résultats a-t-il augmenté en ajoutant un terme à la requête parce que nous avons ciblé
-la requête en ajoutant "stack" comme mot de plus.
+----------------------------------------------------
+q8-1:
+
+GET /groupe_8/_search
+{
+  "query": {
+    "match": {
+      "content": {
+        "query": "search"
+      }
+    }
+  }
+}
+
+q8-2:
+
+GET /groupe_8/_search
+{
+  "query" : {
+    "bool" : {
+      "should": [{
+        "match": {
+          "content": "search"
+        }
+      },
+      {
+        "match": {
+          "content": "analytics"
+        }
+      }]
+    }
+  }
+}
+
+q8-3:
+
+GET /groupe_8/_search
+{
+  "query" : {
+    "bool" : {
+      "must": [{
+        "match": {
+          "content": "search"
+        }
+      },
+      {
+        "match": {
+          "content": "analytics"
+        }
+      }]
+    }
+  }
+}
+
 ----------------------------------------------------
