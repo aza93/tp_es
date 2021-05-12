@@ -174,3 +174,26 @@ GET /groupe_8/_search
         }
     }
 }
+
+----------------------------------------------------
+q12:
+
+GET /groupe_8/_search
+{
+  "query": {
+      "bool": {
+          "must": [
+              {
+                "bool": {
+                    "should": [
+                        {"term": {"content": "performance"}},
+                        {"term": {"content": "optimizations"}},
+                        {"term": {"content": "improvements"}}
+                    ],
+                    "minimum_should_match": 2
+                }
+              }
+          ]
+      }
+  }
+}
