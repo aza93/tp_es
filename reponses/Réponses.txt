@@ -69,3 +69,7 @@ GET /groupe_8/_search
     }
   }
 }
+
+Le nombre de résultats a-t-il augmenté en ajoutant un terme à la requête parce que nous avons ciblé
+la requête en ajoutant "stack" comme mot de plus.
+----------------------------------------------------
