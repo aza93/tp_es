@@ -5,7 +5,7 @@ q2:
 GET /groupe_8/_search
 {
   "query": {
-    "matchèall": { }
+    "match_all": { }
   }
 }
 ----------------------------------------------------
@@ -15,7 +15,7 @@ GET /groupe_8/_search
 {
   "size": 100,
   "query": {
-    "matchèall": { }
+    "match_all": { }
   }
 }
 ----------------------------------------------------
@@ -128,3 +128,14 @@ GET /groupe_8/_search
 }
 
 ----------------------------------------------------
+
+q9:
+
+GET /groupe_8/_search
+{
+  "query": {
+    "match_phrase": {
+      "content":"search analytics"
+    }
+  }
+}
